@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "887621109210",
+    "project_id": "tution-b4e3b",
+    "storage_bucket": "tution-b4e3b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887621109210:android:1044e7ecd908173cc0ece3",
+        "android_client_info": {
+          "package_name": "com.easycom.eee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgiaHJPjhObSgxNGXhZ_MID_NDfw7LxOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887621109210:android:8bff350f50c1dfc1c0ece3",
+        "android_client_info": {
+          "package_name": "com.tution.tution"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgiaHJPjhObSgxNGXhZ_MID_NDfw7LxOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
