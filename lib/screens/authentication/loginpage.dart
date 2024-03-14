@@ -67,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                   color: Colors.white.withOpacity(.6),
                   child: TextField(
+                    obscureText: true,
                     controller: password,
                     decoration: InputDecoration(
                       hintText: 'Password',
@@ -96,8 +97,10 @@ class _LoginPageState extends State<LoginPage> {
                       setState(() {
                         userData = data;
                       });
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => BottomBar()));
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (_) => BottomBar()),
+                          (route) => false);
                     } catch (e) {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(content: Text(e.toString())));

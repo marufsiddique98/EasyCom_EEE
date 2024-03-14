@@ -74,40 +74,41 @@ class _SearchPageState extends State<SearchPage> {
                                 .compareTo(calculateDistance(
                                     b['position'][0], b['position'][1])));
                           return GridView.builder(
-                              padding: EdgeInsets.all(15),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2),
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: users.length,
-                              itemBuilder: (_, i) {
-                                var user = users[i];
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                SingleUserPage(user: user)));
-                                  },
-                                  child: Card(
-                                    child: Column(
-                                      children: [
-                                        Flexible(
-                                            child: CachedNetworkImage(
-                                                imageUrl: user['avatar'])),
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 10),
-                                          child: Text(user['name']),
-                                        ),
-                                        Text(
-                                            'Distance:${calculateDistance(user['position'][0], user['position'][1])}KM'),
-                                      ],
-                                    ),
+                            padding: EdgeInsets.all(15),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: users.length,
+                            itemBuilder: (_, i) {
+                              var user = users[i];
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              SingleUserPage(user: user)));
+                                },
+                                child: Card(
+                                  child: Column(
+                                    children: [
+                                      Flexible(
+                                          child: CachedNetworkImage(
+                                              imageUrl: user['avatar'])),
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Text(user['name']),
+                                      ),
+                                      Text(
+                                          'Distance:${calculateDistance(user['position'][0], user['position'][1])}KM'),
+                                    ],
                                   ),
-                                );
-                              });
+                                ),
+                              );
+                            },
+                          );
                         }
                       },
                     ),
@@ -125,7 +126,7 @@ class _SearchPageState extends State<SearchPage> {
     var a = 0.5 -
         cos((lat2 - lat1) * p) / 2 +
         cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
-    return (12742 * asin(sqrt(a))).toStringAsFixed(3);
+    return (12742 * asin(sqrt(a)) / 1000).toStringAsFixed(3);
   }
 
   Future<Position> determinePosition() async {

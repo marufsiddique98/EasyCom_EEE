@@ -96,6 +96,10 @@ class _HomePageState extends State<HomePage> {
                   itemCount: notices.length,
                   itemBuilder: (_, i) {
                     var notice = notices[i];
+                    var subtitle = notice['desc'];
+                    if (subtitle.length > 100) {
+                      subtitle = notice['desc'].substring(0, 100) + '...';
+                    }
                     return ListTile(
                       onTap: () {
                         Navigator.push(
@@ -104,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                                 builder: (_) => NoticeDetails(notice: notice)));
                       },
                       title: Text(notice['name']),
-                      subtitle: Text('${notice['desc'].substring(0, 100)}...'),
+                      subtitle: Text('$subtitle...'),
                     );
                   },
                 );

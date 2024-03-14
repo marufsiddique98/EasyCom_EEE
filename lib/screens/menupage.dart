@@ -1,3 +1,5 @@
+import 'package:eee/screens/editprofilepage.dart';
+import 'package:eee/screens/settingspage.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -72,10 +74,18 @@ class _MenuPageState extends State<MenuPage> {
             ListTile(
               leading: Icon(Icons.settings),
               title: Text('Settings'),
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => SettingsPage()));
+              },
             ),
             ListTile(
               leading: Icon(Icons.person_2),
               title: Text('Edit Profile'),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => EditProfilePage()));
+              },
             ),
             ListTile(
               leading: Icon(Icons.logout),

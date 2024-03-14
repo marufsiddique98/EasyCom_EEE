@@ -67,6 +67,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                   color: Colors.white.withOpacity(.6),
                   child: TextField(
                     controller: password,
+                    obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Password',
                       labelText: 'Password',

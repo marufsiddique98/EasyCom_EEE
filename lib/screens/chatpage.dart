@@ -49,47 +49,50 @@ class _ChatScreenState extends State<ChatScreen> {
                 stream: ref
                     .doc(getChatId('${auth.currentUser!.uid}', widget.uid))
                     .collection('message')
+                    .orderBy('time')
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    var messages = snapshot.data!.docs.reversed.toList();
                     return ListView.builder(
                         reverse: true,
-                        itemCount: snapshot.data!.docs.length,
+                        itemCount: messages.length,
                         itemBuilder: (_, i) {
-                          DocumentSnapshot doc = snapshot.data!.docs[i];
+                          var message = messages[i].data();
                           return Row(
                             children: [
-                              if (doc['sender'] == '${auth.currentUser!.uid}')
+                              if (message['sender'] ==
+                                  '${auth.currentUser!.uid}')
                                 Expanded(child: Container()),
-                              if (doc['type'] == 'text')
+                              if (message['type'] == 'text')
                                 Expanded(
                                   flex: 2,
                                   child: Container(
                                     margin: EdgeInsets.all(5),
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
-                                      color: doc['sender'] !=
+                                      color: message['sender'] !=
                                               '${auth.currentUser!.uid}'
                                           ? Colors.blue
-                                          : Colors.purple,
+                                          : Colors.green,
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(8),
                                       ),
                                     ),
                                     child: Text(
-                                      '${doc['message']}',
+                                      '${message['message']}',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
                                 ),
-                              if (doc['type'] == 'image')
+                              if (message['type'] == 'image')
                                 Expanded(
                                   flex: 2,
                                   child: Container(
                                     margin: EdgeInsets.all(5),
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
-                                      color: doc['sender'] !=
+                                      color: message['sender'] !=
                                               '${auth.currentUser!.uid}'
                                           ? Colors.blue
                                           : Colors.purple,
@@ -98,11 +101,13 @@ class _ChatScreenState extends State<ChatScreen> {
                                       ),
                                     ),
                                     child: Flexible(
-                                      child: Image.network('${doc['message']}'),
+                                      child: Image.network(
+                                          '${message['message']}'),
                                     ),
                                   ),
                                 ),
-                              if (doc['sender'] != '${auth.currentUser!.uid}')
+                              if (message['sender'] !=
+                                  '${auth.currentUser!.uid}')
                                 Expanded(child: Container()),
                             ],
                           );

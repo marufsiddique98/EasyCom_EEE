@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:eee/screens/chatpage.dart';
-import 'package:eee/screens/locationscreen.dart';
 import 'package:eee/utils/data.dart';
 import 'package:eee/utils/methods.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -85,6 +84,7 @@ class _SingleUserPageState extends State<SingleUserPage> {
                   'Birthday: ${DateTime.fromMillisecondsSinceEpoch(user['bday'].millisecondsSinceEpoch).toString().substring(0, 10)}'),
               Text('Gender: ${user['gender']}'),
               Text('Designation: ${user['designation']}'),
+              Text('Address: ${user['address']}'),
               Row(
                 children: [
                   Text('Phone Number:'),
@@ -100,6 +100,26 @@ class _SingleUserPageState extends State<SingleUserPage> {
                     },
                     icon: Icon(
                       Icons.call,
+                      color: Colors.green,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text('Email Address:'),
+                  Text('${user['email']}'),
+                  IconButton(
+                    onPressed: () async {
+                      try {
+                        Fluttertoast.showToast(msg: 'Launching email box:');
+                        await launchUrl(Uri.parse('mailto:${user['email']}'));
+                      } catch (e) {
+                        Fluttertoast.showToast(msg: e.toString());
+                      }
+                    },
+                    icon: Icon(
+                      Icons.email_outlined,
                       color: Colors.green,
                     ),
                   ),
@@ -132,7 +152,7 @@ class _SingleUserPageState extends State<SingleUserPage> {
                     return Container();
                   } else {
                     return Text(
-                        'Distance From Me: ${snapshot.data}KM or ${snapshot.data! / 1000} meters');
+                        'Distance From Me: ${(snapshot.data)?.toStringAsFixed(2)} meters or ${(snapshot.data! / 1000).toStringAsFixed(2)} Km');
                   }
                 },
               ),
