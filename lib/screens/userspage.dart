@@ -20,6 +20,8 @@ class _UserListPageState extends State<UserListPage> {
     UserRole.STAFF,
     UserRole.STUDENT,
   ];
+  String img =
+      'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-person-icon.png';
   List<String> tabs1 = [
     'Alumni',
     '2018-19',
@@ -99,12 +101,10 @@ class _UserListPageState extends State<UserListPage> {
                     ),
                   ),
                   StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                    stream: sindex == 0
-                        ? ref.collection('users').snapshots()
-                        : ref
-                            .collection('users')
-                            .where('session', isEqualTo: tabs1[index])
-                            .snapshots(),
+                    stream: ref
+                        .collection('users')
+                        .where('session', isEqualTo: tabs1[sindex])
+                        .snapshots(),
                     builder: (BuildContext context,
                         AsyncSnapshot<dynamic> snapshot) {
                       if (!snapshot.hasData) {
@@ -134,7 +134,9 @@ class _UserListPageState extends State<UserListPage> {
                                     children: [
                                       Flexible(
                                           child: CachedNetworkImage(
-                                              imageUrl: user['avatar'])),
+                                              imageUrl: user['avatar'] == ''
+                                                  ? img
+                                                  : user['avatar'])),
                                       Padding(
                                         padding: EdgeInsets.only(top: 10),
                                         child: Text(user['name']),
@@ -185,7 +187,9 @@ class _UserListPageState extends State<UserListPage> {
                                 children: [
                                   Flexible(
                                       child: CachedNetworkImage(
-                                          imageUrl: user['avatar'])),
+                                          imageUrl: user['avatar'] == ''
+                                              ? img
+                                              : user['avatar'])),
                                   Padding(
                                     padding: EdgeInsets.only(top: 10),
                                     child: Text(user['name']),

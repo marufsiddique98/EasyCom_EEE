@@ -21,18 +21,18 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController name = TextEditingController();
-  TextEditingController gender = TextEditingController();
-  TextEditingController phone = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-  TextEditingController cpassword = TextEditingController();
+  TextEditingController name = TextEditingController(text: '');
+  TextEditingController gender = TextEditingController(text: '');
+  TextEditingController phone = TextEditingController(text: '');
+  TextEditingController email = TextEditingController(text: '');
+  TextEditingController password = TextEditingController(text: '');
+  TextEditingController cpassword = TextEditingController(text: '');
   DateTime bday = DateTime.now();
   String session = '';
   TextEditingController dept = TextEditingController(text: 'EEE');
   TextEditingController role = TextEditingController(text: 'Student');
-  TextEditingController desig = TextEditingController();
-  TextEditingController address = TextEditingController();
+  TextEditingController desig = TextEditingController(text: '');
+  TextEditingController address = TextEditingController(text: '');
 
   String imgurl = '', imgpath = '';
 

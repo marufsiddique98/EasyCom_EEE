@@ -18,6 +18,17 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   late Position position;
   bool loading = true;
+  int index = 0;
+  String img =
+      'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-person-icon.png';
+  List<String> tabs = [
+    'Alumni',
+    '2018-19',
+    '2019-20',
+    '2020-21',
+    '2021-22',
+    '2022-23',
+  ];
   @override
   void initState() {
     // TODO: implement initState
@@ -53,15 +64,51 @@ class _SearchPageState extends State<SearchPage> {
                       prefixIcon: Icon(Icons.search)),
                 ),
                 space(x: 25),
+                DefaultTabController(
+                  length: 6,
+                  child: TabBar(
+                    isScrollable: true,
+                    onTap: (v) {
+                      setState(() {
+                        index = v;
+                      });
+                    },
+                    labelColor: Colors.black,
+                    tabs: [
+                      Tab(
+                        text: 'Alumni',
+                      ),
+                      Tab(
+                        text: '2018-19',
+                      ),
+                      Tab(
+                        text: '2019-20',
+                      ),
+                      Tab(
+                        text: '2020-21',
+                      ),
+                      Tab(
+                        text: '2021-22',
+                      ),
+                      Tab(
+                        text: '2022-23',
+                      ),
+                    ],
+                  ),
+                ),
                 Text('Sorted By Distance:'),
                 Expanded(
                   child: Container(
                     child: StreamBuilder(
                       stream: search == ''
-                          ? ref.collection('users').snapshots()
+                          ? ref
+                              .collection('users')
+                              .where('session', isEqualTo: tabs[index])
+                              .snapshots()
                           : ref
                               .collection('users')
                               .where('name', isGreaterThanOrEqualTo: search)
+                              .where('session', isEqualTo: tabs[index])
                               .snapshots(),
                       builder: (_, snapshot) {
                         if (!snapshot.hasData) {
@@ -74,7 +121,6 @@ class _SearchPageState extends State<SearchPage> {
                                 .compareTo(calculateDistance(
                                     b['position'][0], b['position'][1])));
                           return GridView.builder(
-                            padding: EdgeInsets.all(15),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2),
@@ -96,7 +142,9 @@ class _SearchPageState extends State<SearchPage> {
                                     children: [
                                       Flexible(
                                           child: CachedNetworkImage(
-                                              imageUrl: user['avatar'])),
+                                              imageUrl: user['avatar'] == ''
+                                                  ? img
+                                                  : user['avatar'])),
                                       Padding(
                                         padding: EdgeInsets.only(top: 10),
                                         child: Text(user['name']),

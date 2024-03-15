@@ -1,4 +1,4 @@
-# eee
+# EasyCom_EEE
 
 A new Flutter project.
 
