@@ -11,6 +11,7 @@ class AddNoticePage extends StatefulWidget {
 }
 
 class _AddNoticePageState extends State<AddNoticePage> {
+  final _key = GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
   TextEditingController desc = TextEditingController();
 
@@ -24,48 +25,65 @@ class _AddNoticePageState extends State<AddNoticePage> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
+            key: _key,
             child: Column(
-          children: [
-            SizedBox(height: 16.0),
-            TextFormField(
-              controller: name,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                labelText: 'Name',
-                hintText: 'Name',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 16.0),
-            TextFormField(
-              controller: desc,
-              keyboardType: TextInputType.multiline,
-              maxLines: 10,
-              minLines: 10,
-              decoration: InputDecoration(
-                labelText: 'Description',
-                hintText: 'Description',
-                border: OutlineInputBorder(),
-              ),
-            ),
-          ],
-        )),
+              children: [
+                SizedBox(height: 16.0),
+                TextFormField(
+                  controller: name,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: 'Name',
+                    hintText: 'Name',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (v) {
+                    if (v == '' || v == null) {
+                      return 'Name is required';
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+                SizedBox(height: 16.0),
+                TextFormField(
+                  controller: desc,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: 10,
+                  minLines: 10,
+                  decoration: InputDecoration(
+                    labelText: 'Description',
+                    hintText: 'Description',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (v) {
+                    if (v == '' || v == null) {
+                      return 'Description is required';
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+              ],
+            )),
       ),
       bottomSheet: ElevatedButton(
         onPressed: () async {
-          try {
-            String id = DateTime.now().millisecondsSinceEpoch.toString();
-            await ref.collection('notice').doc('${id}').set({
-              'uid': auth.currentUser!.uid,
-              'id': id,
-              'name': name.text,
-              'desc': desc.text,
-            });
+          if (_key.currentState!.validate()) {
+            try {
+              String id = DateTime.now().millisecondsSinceEpoch.toString();
+              await ref.collection('notice').doc('${id}').set({
+                'uid': auth.currentUser!.uid,
+                'id': id,
+                'name': name.text,
+                'desc': desc.text,
+              });
 
-            Fluttertoast.showToast(msg: 'Notice Saved Successfully');
-            Navigator.pop(context);
-          } catch (e) {
-            Fluttertoast.showToast(msg: e.toString());
+              Fluttertoast.showToast(msg: 'Notice Saved Successfully');
+              Navigator.pop(context);
+            } catch (e) {
+              Fluttertoast.showToast(msg: e.toString());
+            }
           }
         },
         child: Text(
