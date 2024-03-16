@@ -41,7 +41,14 @@ class _SettingsPageState extends State<SettingsPage> {
                       TextButton(
                         onPressed: () async {
                           try {
-                            auth.currentUser?.delete();
+                            await ref
+                                .collection('users')
+                                .doc(auth.currentUser!.uid)
+                                .delete();
+                            await auth.currentUser?.delete();
+                            Fluttertoast.showToast(
+                                msg:
+                                    'Your account has been deleted successfully!');
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(builder: (_) => LoginPage()),

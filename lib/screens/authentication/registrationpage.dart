@@ -254,6 +254,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           Text('Your Role:'),
                           Container(
                             child: DropdownMenu<String>(
+                              onSelected: (v) {
+                                setState(() {
+                                  role.text = v!;
+                                });
+                              },
                               controller: role,
                               dropdownMenuEntries: [
                                 DropdownMenuEntry(
@@ -309,7 +314,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ],
                 ),
                 SizedBox(height: 16.0),
-                if (role.text != UserRole.STUDENT && session != 'Alumni')
+                if (role.text == UserRole.STAFF && session != 'Alumni')
                   TextFormField(
                     controller: desig,
                     decoration: InputDecoration(
@@ -318,7 +323,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       border: OutlineInputBorder(),
                     ),
                   ),
-                if (session == 'Alumni')
+                if (session == 'Alumni' && role.text != UserRole.TEACHER)
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -326,6 +331,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       Expanded(
                         child: Container(
                           child: DropdownMenu<String>(
+                            onSelected: (v) {
+                              setState(() {
+                                desig.text = v!;
+                              });
+                            },
                             controller: desig,
                             dropdownMenuEntries: [
                               DropdownMenuEntry(
@@ -348,6 +358,38 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   label: 'Industrial Sector'),
                               DropdownMenuEntry(
                                   value: 'Teaching', label: 'Teaching'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                SizedBox(height: 16.0),
+                if (role.text == UserRole.TEACHER)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(child: Text('Your Designation:')),
+                      Expanded(
+                        child: Container(
+                          child: DropdownMenu<String>(
+                            onSelected: (v) {
+                              setState(() {
+                                desig.text = v!;
+                              });
+                            },
+                            controller: desig,
+                            dropdownMenuEntries: [
+                              DropdownMenuEntry(
+                                  value: 'Professor', label: 'Professor'),
+                              DropdownMenuEntry(
+                                  value: 'Associate Professor',
+                                  label: 'Associate Professor'),
+                              DropdownMenuEntry(
+                                  value: 'Assistant Professor',
+                                  label: 'Assistant Professor'),
+                              DropdownMenuEntry(
+                                  value: 'Lecturer', label: 'Lecturer'),
                             ],
                           ),
                         ),
