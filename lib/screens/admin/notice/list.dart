@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils/data.dart';
+import '../../noticedetails.dart';
 import 'addnotice.dart';
 
 class NoticeListPage extends StatefulWidget {
@@ -39,40 +40,52 @@ class _NoticeListPageState extends State<NoticeListPage> {
                 itemCount: data.length,
                 itemBuilder: (_, i) {
                   var notice = data[i];
+
+                  var subtitle = notice['desc'];
+                  if (subtitle.length > 100) {
+                    subtitle = notice['desc'].substring(0, 100) + '...';
+                  }
+
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
                     child: GestureDetector(
-                      onLongPress: () {
-                        showAdaptiveDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                                  title: Text('Are you sure?'),
-                                  content:
-                                      Text('Do you want to delete this item?'),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () {
+                        onLongPress: () {
+                          showAdaptiveDialog(
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                    title: Text('Are you sure?'),
+                                    content: Text(
+                                        'Do you want to delete this item?'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('No')),
+                                      TextButton(
+                                        onPressed: () async {
+                                          await ref
+                                              .collection('notice')
+                                              .doc(notice['id'])
+                                              .delete();
                                           Navigator.pop(context);
                                         },
-                                        child: Text('No')),
-                                    TextButton(
-                                      onPressed: () async {
-                                        await ref
-                                            .collection('notice')
-                                            .doc(notice['id'])
-                                            .delete();
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('Yes'),
-                                    ),
-                                  ],
-                                ));
-                      },
-                      child: AspectRatio(
-                        aspectRatio: 7 / 3,
-                        child: CachedNetworkImage(imageUrl: notice['imgurl']),
-                      ),
-                    ),
+                                        child: Text('Yes'),
+                                      ),
+                                    ],
+                                  ));
+                        },
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) =>
+                                        NoticeDetails(notice: notice)));
+                          },
+                          title: Text(notice['name']),
+                          subtitle: Text('$subtitle...'),
+                        )),
                   );
                 });
           }
