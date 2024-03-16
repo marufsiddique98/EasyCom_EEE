@@ -84,6 +84,9 @@ class _SingleUserPageState extends State<SingleUserPage> {
                   'Birthday: ${DateTime.fromMillisecondsSinceEpoch(user['bday'].millisecondsSinceEpoch).toString().substring(0, 10)}'),
               Text('Gender: ${user['gender']}'),
               Text('Designation: ${user['designation']}'),
+              Text('Session: ${user['session']}'),
+              if (user['session'] == 'Alumni')
+                Text('Present Job Sector: ${user['sector']}'),
               Text('Address: ${user['address']}'),
               Row(
                 children: [

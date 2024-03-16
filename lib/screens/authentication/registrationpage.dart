@@ -32,6 +32,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController dept = TextEditingController(text: 'EEE');
   TextEditingController role = TextEditingController(text: 'Student');
   TextEditingController desig = TextEditingController(text: '');
+  TextEditingController sector = TextEditingController(text: '');
   TextEditingController address = TextEditingController(text: '');
 
   String imgurl = '', imgpath = '';
@@ -333,10 +334,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           child: DropdownMenu<String>(
                             onSelected: (v) {
                               setState(() {
-                                desig.text = v!;
+                                sector.text = v!;
                               });
                             },
-                            controller: desig,
+                            controller: sector,
                             dropdownMenuEntries: [
                               DropdownMenuEntry(
                                   value: 'Power Sector', label: 'Power Sector'),
@@ -442,6 +443,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           'gender': gender.text,
                           'dept': dept.text,
                           'session': session,
+                          'sector': sector.text,
                           'address': address.text,
                           'position': [position.latitude, position.longitude],
                         });
